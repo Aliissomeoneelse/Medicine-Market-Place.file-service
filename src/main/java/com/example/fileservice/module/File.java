@@ -1,10 +1,7 @@
 package com.example.fileservice.module;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,8 +15,8 @@ import java.time.LocalDateTime;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "file_id")
     private Integer fileId;
-    private Integer userId;
     private String fileName;
     private String filePath;
     private String ext;

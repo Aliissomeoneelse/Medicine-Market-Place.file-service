@@ -37,7 +37,7 @@ public class FileController {
     }
 
     @GetMapping("/get-files-by-user/{id}")
-    public ResponseDto<Set<FileDto>> getImagesByUsersId(@PathVariable("id") Integer id) {
+    public ResponseDto<Set<FileDto>> getFilesByUsersId(@PathVariable("id") Integer id) {
         return this.fileService.getFilesByUsersId(id);
     }
 
