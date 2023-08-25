@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -143,6 +144,22 @@ public class FileService {
         String fileName = String.format("%s/%s", folders, UUID.randomUUID());
         Files.copy(file.getInputStream(), Path.of(fileName));
         return fileName;
+    }
+
+    public ResponseDto<Set<FileDto>> getFilesByUsersId(Integer id) {
+        Set<File> files = fileRepository.findAllByFileIdAndDeletedAtIsNull(id);
+        if (files.isEmpty()) {
+            return ResponseDto.<Set<FileDto>>builder()
+                    .message("Loaner is not found!")
+                    .code(-3)
+                    .data(null)
+                    .build();
+        }
+        return ResponseDto.<Set<FileDto>>builder()
+                .success(true)
+                .message("OK")
+                .data(fileMapper.toSetDto(files))
+                .build();
     }
 
 }

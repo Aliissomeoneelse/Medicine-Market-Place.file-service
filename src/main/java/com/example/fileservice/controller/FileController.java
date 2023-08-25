@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("file")
 @RequiredArgsConstructor
@@ -32,6 +34,11 @@ public class FileController {
     @DeleteMapping(value = "/delete/{id}")
     public ResponseDto<FileDto> deleteFile(@PathVariable(value = "id") Integer fileId) {
         return this.fileService.deleteFile(fileId);
+    }
+
+    @GetMapping("/get-files-by-user/{id}")
+    public ResponseDto<Set<FileDto>> getImagesByUsersId(@PathVariable("id") Integer id) {
+        return this.fileService.getFilesByUsersId(id);
     }
 
 }
