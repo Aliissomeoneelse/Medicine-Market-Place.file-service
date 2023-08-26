@@ -1,6 +1,5 @@
 package com.example.fileservice.controller;
 
-
 import com.example.fileservice.dto.FileDto;
 import com.example.fileservice.dto.ResponseDto;
 import com.example.fileservice.service.FileService;
@@ -27,7 +26,7 @@ public class FileController {
 
     @PutMapping(value = "/update/{id}")
     public ResponseDto<FileDto> updateFile(@RequestBody MultipartFile file,
-                                                @PathVariable(value = "id") Integer fileId) {
+                                           @PathVariable(value = "id") Integer fileId) {
         return this.fileService.updateFile(file, fileId);
     }
 

@@ -17,7 +17,9 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
     private Integer fileId;
+    @Column(name = "file_name")
     private String fileName;
+    @Column(name = "file_path")
     private String filePath;
     private String ext;
     private Boolean status;

@@ -150,7 +150,7 @@ public class FileService {
         Set<File> files = fileRepository.findAllByFileId(id);
         if (files.isEmpty()) {
             return ResponseDto.<Set<FileDto>>builder()
-                    .message("File is not found!")
+                    .message("Loaner is not found!")
                     .code(-3)
                     .data(null)
                     .build();
