@@ -12,14 +12,13 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "files")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
     private Integer fileId;
-    @Column(name = "file_name")
+    private Integer userId;
     private String fileName;
-    @Column(name = "file_path")
     private String filePath;
     private String ext;
     private Boolean status;

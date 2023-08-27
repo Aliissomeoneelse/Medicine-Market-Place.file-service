@@ -24,7 +24,7 @@ public abstract class FileMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deletedAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public abstract File updateUsersFromDto(FileDto dto, @MappingTarget File file);
+    public abstract File updateFilesFromDto(FileDto dto, @MappingTarget File file);
 
     public abstract Set<FileDto> toSetDto(Set<File> file);
 

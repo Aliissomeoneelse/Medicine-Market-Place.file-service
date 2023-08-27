@@ -12,5 +12,5 @@ import java.util.Set;
 public interface FileRepository extends JpaRepository<File, Integer> {
     Optional<File> findByFileIdAndDeletedAtIsNull(Integer fileId);
 
-    Set<File> findAllByFileId(Integer id);
+    Set<File> findAllByUserIdAndDeletedAtIsNull(Integer userId);
 }

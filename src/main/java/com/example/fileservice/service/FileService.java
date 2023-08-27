@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -72,39 +73,31 @@ public class FileService {
                         .build());
     }
 
-    public ResponseDto<FileDto> updateFile(MultipartFile file, Integer fileId) {
-        return this.fileRepository.findByFileIdAndDeletedAtIsNull(fileId)
-                .map(fileModel -> {
-                    try {
-                        java.io.File uFile = new java.io.File(fileModel.getFilePath());
-                        if (uFile.exists()) {
-                            uFile.delete();
-                        }
-                        return ResponseDto.<FileDto>builder()
-                                .success(true)
-                                .message("OK")
-                                .data(this.fileMapper.toDto(
-                                        this.fileRepository.save(
-                                                File.builder()
-                                                        .fileId(fileModel.getFileId())
-                                                        .fileName(Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[0])
-                                                        .ext(Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1])
-                                                        .createdAt(LocalDateTime.now())
-                                                        .filePath(saveFile(file))
-                                                        .status(true)
-                                                        .build())))
-                                .build();
-                    } catch (Exception e) {
-                        return ResponseDto.<FileDto>builder()
-                                .code(-3)
-                                .message("File while updating error message :: " + e.getMessage())
-                                .build();
-                    }
-                })
-                .orElse(ResponseDto.<FileDto>builder()
-                        .code(-1)
-                        .message(String.format("File with file id :: %d is not found!", fileId))
-                        .build());
+    public ResponseDto<FileDto> updateFile(FileDto dto, Integer fileId) {
+        Optional<File> optional = fileRepository.findByFileIdAndDeletedAtIsNull(fileId);
+        if (optional.isEmpty()) {
+            return ResponseDto.<FileDto>builder()
+                    .message("File is not found!")
+                    .code(-3)
+                    .data(null)
+                    .build();
+        }
+        try {
+            File file = fileMapper.updateFilesFromDto(dto, optional.get());
+            file.setFileId(optional.get().getFileId());
+            file.setUpdatedAt(LocalDateTime.now());
+            fileRepository.save(file);
+            return ResponseDto.<FileDto>builder()
+                    .success(true)
+                    .message("File successful updated!")
+                    .data(fileMapper.toDto(file))
+                    .build();
+        } catch (Exception e) {
+            return ResponseDto.<FileDto>builder()
+                    .message("File while updating error :: " + e.getMessage())
+                    .code(-1)
+                    .build();
+        }
     }
 
     public ResponseDto<FileDto> deleteFile(Integer fileId) {
@@ -147,7 +140,7 @@ public class FileService {
     }
 
     public ResponseDto<Set<FileDto>> getFilesByUsersId(Integer id) {
-        Set<File> files = fileRepository.findAllByFileId(id);
+        Set<File> files = fileRepository.findAllByUserIdAndDeletedAtIsNull(id);
         if (files.isEmpty()) {
             return ResponseDto.<Set<FileDto>>builder()
                     .message("Files are not found!")

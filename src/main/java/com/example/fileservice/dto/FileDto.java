@@ -11,6 +11,7 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileDto {
     private Integer fileId;
+    private Integer userId;
     private String fileName;
     private String filePath;
     private String ext;

@@ -25,9 +25,9 @@ public class FileController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseDto<FileDto> updateFile(@RequestBody MultipartFile file,
+    public ResponseDto<FileDto> updateFile(@RequestBody FileDto dto,
                                            @PathVariable(value = "id") Integer fileId) {
-        return this.fileService.updateFile(file, fileId);
+        return this.fileService.updateFile(dto, fileId);
     }
 
     @DeleteMapping(value = "/delete/{id}")
