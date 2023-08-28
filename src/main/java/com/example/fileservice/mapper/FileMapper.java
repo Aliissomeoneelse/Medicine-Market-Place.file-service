@@ -4,11 +4,9 @@ package com.example.fileservice.mapper;
 import com.example.fileservice.dto.FileDto;
 import com.example.fileservice.module.File;
 import org.mapstruct.*;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-@Component
 @Mapper(componentModel = "spring")
 public abstract class FileMapper {
     @Mapping(target = "fileId", ignore = true)
