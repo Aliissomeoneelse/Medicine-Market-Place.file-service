@@ -83,7 +83,8 @@ public class FileService {
                     .build();
         }
         try {
-            File file = fileMapper.updateFilesFromDto(dto, optional.get());
+            File file = optional.get();
+            fileMapper.updateFilesFromDto(dto, optional.get());
             file.setFileId(optional.get().getFileId());
             file.setUpdatedAt(LocalDateTime.now());
             fileRepository.save(file);
